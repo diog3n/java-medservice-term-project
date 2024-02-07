@@ -1,0 +1,1 @@
+DELETE FROM medical_service_db.appointment WHERE id = ...;

@@ -1,0 +1,1 @@
+DELETE FROM medical_service_db.patient WHERE id = ...;

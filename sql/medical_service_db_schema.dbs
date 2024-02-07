@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MedicalServiceDB" id="Project-25f9" database="MySql" >
+	<schema name="medical_service_db" options="" >
+		<comment><![CDATA[Medical servce database for my Java Term Project]]></comment>
+		<table name="appointment" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="date_time" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="medical_personnel_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="patient_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<index name="pk_appointment" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_appointment_to_personnel" to_schema="medical_service_db" to_table="medical_personnel" delete_action="cascade" update_action="cascade" >
+				<fk_column name="medical_personnel_id" pk="id" />
+			</fk>
+			<fk name="fk_appointment_to_patient" to_schema="medical_service_db" to_table="patient" delete_action="cascade" update_action="cascade" >
+				<fk_column name="patient_id" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="medical_personnel" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="first_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="middle_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="speciality" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="room_number" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<index name="pk_medical_personnel" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="patient" spec="" >
+			<comment><![CDATA[Represents a patient]]></comment>
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="first_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="middle_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="date_of_birth" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="home_address" type="VARCHAR" length="256" jt="12" mandatory="y" />
+			<index name="pk_patient" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<schema name="test_db" >
+		<table name="test_table" row_count="4" spec="" >
+			<comment><![CDATA[test_table made for my term project]]></comment>
+			<column name="id" type="INT" length="11" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[unique identifier of an entry]]></comment>
+			</column>
+			<column name="first_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[first name of a person]]></comment>
+			</column>
+			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[last name of a person]]></comment>
+			</column>
+			<column name="age" type="INT" length="11" jt="4" mandatory="y" >
+				<comment><![CDATA[person's age]]></comment>
+			</column>
+			<index name="pk_test_table" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci]]></options>
+		</table>
+	</schema>
+	<connector name="MedicalServiceDB" database="MySql" driver_class="com.mysql.cj.jdbc.Driver" driver_jar="mysql-connector-j-8.0.32.jar" driver_desc="Standard" host="localhost" port="3306" instance="test_db" user="ilya" passwd="d2Vsb3Nzb18yMDAx" useSystemProxy="false" />
+	<layout name="MedicalServicesLayout" id="Layout-222f" joined_routing="y" show_relation="columns" >
+		<entity schema="medical_service_db" name="appointment" color="3986C1" x="288" y="48" />
+		<entity schema="medical_service_db" name="medical_personnel" color="3986C1" x="608" y="208" />
+		<entity schema="medical_service_db" name="patient" color="3986C1" x="48" y="224" />
+		<script name="appointment" id="Editor-16e1" language="SQL" >
+			<string><![CDATA[INSERT INTO medical_service_db.appointment
+	( id, date_time, medical_personnel_id, patient_id) VALUES ( 2, "2023-05-01 10:30:00", 2, 2 );]]></string>
+		</script>
+		<script name="appointment_001" id="Editor-335" language="SQL" >
+			<string><![CDATA[SELECT
+	appointment.id, date_time, 
+    personnel.id AS MID,
+    personnel.first_name AS md_first_name, 
+    personnel.middle_name AS md_middle_name, 
+    personnel.last_name AS md_last_name,
+    patient.id AS MRID,
+    patient.first_name AS pat_first_name,
+    patient.middle_name AS pat_middle_name,
+    patient.last_name AS pat_last_name
+FROM
+	medical_service_db.appointment as appointment 
+    LEFT JOIN medical_service_db.medical_personnel as personnel on personnel.id = appointment.medical_personnel_id
+    LEFT JOIN medical_service_db.patient as patient on patient.id = appointment.patient_id;]]></string>
+		</script>
+		<script name="appointment_002" id="Editor-1bb5" language="SQL" confirmed="y" >
+			<string><![CDATA[SELECT
+	id, date_time, medical_personnel_id, patient_id
+FROM
+	medical_service_db.appointment t;]]></string>
+		</script>
+		<script name="medical_personnel" id="Editor-d55" language="SQL" >
+			<string><![CDATA[INSERT INTO medical_service_db.medical_personnel
+	( id, first_name, middle_name, last_name, speciality, room_number) VALUES ( 2, "Vladimir", "Anatolievich", "Anufriev", "Reanimatologist", 301 );]]></string>
+		</script>
+		<script name="patient" id="Editor-26d6" language="SQL" >
+			<string><![CDATA[INSERT INTO medical_service_db.patient
+	( id, first_name, middle_name, last_name, date_of_birth, home_address) VALUES ( 2, "Yuri", "Igorevich", "Kostrov", "2002-01-26", "Saint-Petersburg, Morskaya Naberezhnaya St. 6" );]]></string>
+		</script>
+	</layout>
+</project>

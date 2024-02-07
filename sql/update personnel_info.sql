@@ -1,0 +1,1 @@
+UPDATE medical_service_db.medical_personnel SET first_name = ..., middle_name = ..., last_name = ..., speciality = ..., room_number = ... WHERE id = ... ;

@@ -1,0 +1,1 @@
+INSERT INTO medical_service_db.appointment( id, date_time, medical_personnel_id, patient_id) VALUES ( ?, ?, ?, ? );
